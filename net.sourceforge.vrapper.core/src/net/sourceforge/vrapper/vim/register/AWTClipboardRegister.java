@@ -6,6 +6,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 
 import net.sourceforge.vrapper.utils.ContentType;
+import net.sourceforge.vrapper.utils.VimUtils;
 import net.sourceforge.vrapper.vim.VimConstants;
 
 // XXX: we're mixing SWT with AWT here
@@ -21,7 +22,7 @@ public class AWTClipboardRegister implements Register {
                 s = (String) c.getContents(df).getTransferData(df);
                 if (s.endsWith(VimConstants.REGISTER_NEWLINE)
                         || s.startsWith(VimConstants.REGISTER_NEWLINE)) {
-                    return new StringRegisterContent(ContentType.LINES, s+VimConstants.REGISTER_NEWLINE);
+                    return new StringRegisterContent(ContentType.LINES, VimUtils.stripLastNewline(s));
                 }
                 return new StringRegisterContent(ContentType.TEXT, s);
             } catch (Exception e) {
